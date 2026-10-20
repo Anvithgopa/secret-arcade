@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secret Arcade — Your Tiny Escape Inside Chrome</title>
+  <meta name="description" content="A hidden retro arcade extension for Google Chrome for quick 5-20 minute breaks with instant disguise mode.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&family=Press+Start+2P&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #080a0f;
+      --bg-card: #10141d;
+      --border-color: rgba(255, 255, 255, 0.1);
+      --accent-lime: #d7ff3f;
+      --accent-amber: #f59e0b;
+      --accent-cyan: #00f0ff;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    .font-pixel { font-family: 'Press Start 2P', monospace; }
+    .font-display { font-family: 'Outfit', sans-serif; }
+
+    /* Layout */
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+    header { padding: 24px 0; border-bottom: 1px solid var(--border-color); }
+    .nav { display: flex; justify-content: space-between; align-items: center; }
+    .logo { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 18px; color: #fff; text-decoration: none; }
+    .logo-badge { background: #d7ff3f; color: #080a0f; font-size: 11px; padding: 2px 8px; border-radius: 99px; font-weight: 800; }
+
+    /* Hero */
+    .hero { padding: 80px 0 60px; text-align: center; }
+    .hero-pill { display: inline-flex; align-items: center; gap: 8px; background: rgba(215, 255, 63, 0.1); border: 1px solid rgba(215, 255, 63, 0.3); color: var(--accent-lime); font-size: 12px; font-weight: 700; padding: 6px 16px; border-radius: 99px; margin-bottom: 24px; }
+    .hero h1 { font-size: 48px; font-weight: 900; line-height: 1.15; margin-bottom: 18px; letter-spacing: -0.5px; }
+    .hero h1 span { color: var(--accent-lime); }
+    .hero p { font-size: 18px; color: var(--text-muted); max-width: 640px; margin: 0 auto 36px; }
+    .cta-btn { display: inline-flex; align-items: center; gap: 10px; background: var(--accent-lime); color: #080a0f; font-weight: 800; font-size: 15px; padding: 14px 28px; border-radius: 12px; text-decoration: none; transition: transform 0.15s, box-shadow 0.15s; }
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 0 25px rgba(215, 255, 63, 0.4); }
+
+    /* Games Grid */
+    .section-title { text-align: center; font-size: 28px; font-weight: 900; margin-bottom: 12px; }
+    .section-sub { text-align: center; color: var(--text-muted); font-size: 15px; margin-bottom: 40px; }
+    .games-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 80px; }
+    .game-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; padding: 20px; transition: border-color 0.2s; }
+    .game-card:hover { border-color: rgba(215, 255, 63, 0.4); }
+    .game-icon { font-size: 32px; margin-bottom: 12px; display: inline-block; }
+    .game-name { font-weight: 800; font-size: 16px; margin-bottom: 6px; }
+    .game-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+    /* Escape Mode Feature Box */
+    .feature-box { background: linear-gradient(135deg, #161c28 0%, #0d111a 100%); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 20px; padding: 36px; margin-bottom: 80px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; }
+    .feature-text h3 { font-size: 22px; font-weight: 900; color: #fff; margin-bottom: 8px; }
+    .feature-text p { color: var(--text-muted); font-size: 14px; max-width: 500px; }
+    .kbd { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); padding: 6px 12px; border-radius: 8px; font-family: monospace; font-size: 13px; color: var(--accent-lime); font-weight: bold; }
+
+    /* Pricing Section */
+    .pricing-wrap { max-width: 480px; margin: 0 auto 100px; }
+    .price-card { background: linear-gradient(180deg, #171d2b 0%, #0e121a 100%); border: 2px solid var(--accent-amber); border-radius: 24px; padding: 36px; text-align: center; box-shadow: 0 0 50px rgba(245, 158, 11, 0.15); }
+    .price-badge { background: rgba(245, 158, 11, 0.2); border: 1px solid var(--accent-amber); color: #fbbf24; font-size: 11px; font-weight: 800; padding: 4px 12px; border-radius: 99px; display: inline-block; margin-bottom: 16px; }
+    .price-amount { font-size: 48px; font-weight: 900; color: #fff; margin-bottom: 4px; }
+    .price-sub { color: var(--text-muted); font-size: 13px; margin-bottom: 24px; }
+    .perks-list { list-style: none; text-align: left; margin-bottom: 28px; }
+    .perks-list li { padding: 8px 0; font-size: 14px; color: #e2e8f0; display: flex; align-items: center; gap: 10px; }
+    .perks-list li::before { content: "✓"; color: #84cc16; font-weight: bold; }
+    .pay-btn { display: block; width: 100%; background: linear-gradient(135deg, #f59e0b, #d97706); color: #000; font-weight: 900; font-size: 16px; padding: 14px; border-radius: 12px; text-decoration: none; border: none; cursor: pointer; transition: opacity 0.2s; }
+    .pay-btn:hover { opacity: 0.9; }
+
+    /* Mandatory Razorpay Footer Compliance */
+    footer { background: #050609; border-top: 1px solid var(--border-color); padding: 50px 0 30px; font-size: 13px; color: var(--text-muted); }
+    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-bottom: 40px; }
+    .footer-col h4 { color: #fff; font-size: 14px; font-weight: 800; margin-bottom: 14px; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 8px; }
+    .footer-col ul li a { color: var(--text-muted); text-decoration: none; transition: color 0.15s; }
+    .footer-col ul li a:hover { color: var(--accent-lime); }
+    .footer-bottom { border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 24px; text-align: center; font-size: 12px; }
+
+    /* Policy Modal / Sections */
+    .policy-section { display: none; background: #0c0f16; border: 1px solid var(--border-color); border-radius: 16px; padding: 30px; margin: 40px 0; }
+    .policy-section.active { display: block; }
+    .policy-section h2 { color: #fff; font-size: 20px; margin-bottom: 16px; }
+    .policy-section p, .policy-section ul { color: #cbd5e1; font-size: 14px; line-height: 1.7; margin-bottom: 12px; }
+    .policy-section ul { padding-left: 20px; }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header>
+    <div class="container nav">
+      <a href="#" class="logo font-display">
+        <span>🎮 SECRET ARCADE</span>
+        <span class="logo-badge">CHROME EXTENSION</span>
+      </a>
+      <div>
+        <a href="#pricing" class="cta-btn" style="padding: 8px 18px; font-size: 13px;">Get Lifetime Pass</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero container font-display">
+    <div class="hero-pill">⚡ BUILT SPECIFICALLY FOR HEALTHY 5–20 MIN WORK BREAKS</div>
+    <h1>Your Tiny Escape.<br><span>Tucked Inside Google Chrome.</span></h1>
+    <p>A compact mini-arcade cabinet living inside your browser toolbar. Play 8 retro games, recharge your focus, or hit instant disguise mode.</p>
+    <a href="#pricing" class="cta-btn">Unlock All 8 Games — ₹299 (Lifetime)</a>
+  </section>
+
+  <!-- Games Section -->
+  <section class="container">
+    <h2 class="section-title font-display">8 Hand-Crafted Retro Cabinets</h2>
+    <p class="section-sub">100% offline-first. Instant startup. Zero loading screens.</p>
+
+    <div class="games-grid">
+      <div class="game-card">
+        <span class="game-icon">🐍</span>
+        <div class="game-name font-display">Neon Snake</div>
+        <div class="game-desc">Reimagined retro classic with glowing neon fruit and crisp responsive controls. Free daily play!</div>
+      </div>
+      <div class="game-card">
+        <span class="game-icon">🧱</span>
+        <div class="game-name font-display">Brick Breaker</div>
+        <div class="game-desc">High-speed paddle action with explosive neon brick collisions and sound effects.</div>
+      </div>
+      <div class="game-card">
+        <span class="game-icon">🔢</span>
+        <div class="game-name font-display">2048 Cyber</div>
+        <div class="game-desc">Smooth numeric slider puzzle. Merge tiles and chase high combo multipliers.</div>
+      </div>
+      <div class="game-card">
+        <span class="game-icon">💣</span>
+        <div class="game-name font-display">Minesweeper</div>
+        <div class="game-desc">Tactical grid sweeper with digital flags and clean modern typography.</div>
+      </div>
+      <div class="game-card">
+        <span class="game-icon">🚀</span>
+        <div class="game-name font-display">Cyber Glider</div>
+        <div class="game-desc">One-tap physics flyer navigating through laser gates and neon obstacles.</div>
+      </div>
+      <div class="game-card">
+        <span class="game-icon">⚡</span>
+        <div class="game-name font-display">Reaction Rush</div>
+        <div class="game-desc">Millisecond precision reflex test. Measure and sharpen your reaction speed.</div>
+      </div>
+      <div class="game-card">
+        <span class="game-icon">🧠</span>
+        <div class="game-name font-display">Memory Match</div>
+        <div class="game-desc">Cyberpunk card matching trainer to keep your working memory sharp.</div>
+      </div>
+      <div class="game-card">
+        <span class="game-icon">🏎️</span>
+        <div class="game-name font-display">Tiny Racer</div>
+        <div class="game-desc">Retro top-down highway speedway with rapid traffic lane switching.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Escape Mode -->
+  <section class="container">
+    <div class="feature-box">
+      <div class="feature-text">
+        <h3 class="font-display">🛡️ Instant "Escape Mode" Disguise</h3>
+        <p>Press <span class="kbd">Ctrl+Shift+X</span> (or <span class="kbd">Cmd+Shift+X</span> on Mac) anytime. The arcade instantly conceals the game and displays a functional Calculator, Notes scratchpad, or blank screen.</p>
+      </div>
+      <div>
+        <span class="kbd" style="font-size: 15px; padding: 10px 18px;">Cmd + Shift + X</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="container pricing-wrap" id="pricing">
+    <h2 class="section-title font-display">Simple Lifetime Pricing</h2>
+    <p class="section-sub">No recurring subscriptions. One payment forever.</p>
+
+    <div class="price-card font-display">
+      <span class="price-badge">VIP ARCADE PASS</span>
+      <div class="price-amount">₹299</div>
+      <div class="price-sub">One-time payment • Lifetime access</div>
+      
+      <ul class="perks-list">
+        <li>All 8 arcade cabinets unlocked permanently</li>
+        <li>Unlimited daily play time (removes 20-min daily limit)</li>
+        <li>Exclusive CRT themes (Green CRT, Amber, Cyberpunk)</li>
+        <li>Instant disguise screen shortcuts</li>
+        <li>Works offline in Google Chrome</li>
+      </ul>
+
+      <a href="https://payments.cashfree.com/forms/secret-arcade" target="_blank" class="pay-btn">
+        Buy Lifetime Pass (₹299)
+      </a>
+      <p style="font-size: 11px; color: #94a3b8; margin-top: 12px;">Secured by Cashfree • UPI / Cards / Netbanking</p>
+    </div>
+  </section>
+
+  <!-- Cashfree Mandatory Compliance Sections -->
+  <section class="container">
+    
+    <!-- Contact Us -->
+    <div id="contact" class="policy-section">
+      <h2>Contact Us</h2>
+      <p>Have questions about your purchase or need help activating your license?</p>
+      <ul>
+        <li><strong>Product Name:</strong> Secret Arcade (Chrome Extension)</li>
+        <li><strong>Developer / Support Email:</strong> <a href="mailto:support@secretarcade.dev" style="color: var(--accent-lime);">support@secretarcade.dev</a> (or your primary email)</li>
+        <li><strong>Operating Address:</strong> India</li>
+        <li><strong>Support Response Time:</strong> Within 24-48 business hours</li>
+      </ul>
+    </div>
+
+    <!-- Terms & Conditions -->
+    <div id="terms" class="policy-section">
+      <h2>Terms and Conditions</h2>
+      <p>Welcome to Secret Arcade. By installing or purchasing a license for Secret Arcade, you agree to these terms:</p>
+      <ul>
+        <li><strong>Digital License:</strong> The ₹299 Lifetime Pass grants you a personal, non-exclusive license to use the extension features.</li>
+        <li><strong>Delivery of Product:</strong> Secret Arcade is delivered digitally. Features are unlocked immediately in the Chrome extension upon providing the Cashfree Order ID or Payment ID.</li>
+        <li><strong>Usage:</strong> You agree not to distribute or reverse-engineer the extension files.</li>
+      </ul>
+    </div>
+
+    <!-- Privacy Policy -->
+    <div id="privacy" class="policy-section">
+      <h2>Privacy Policy</h2>
+      <p>Secret Arcade is built with a strict local-first architecture:</p>
+      <ul>
+        <li><strong>Zero Remote Tracking:</strong> We do not track your browsing history, active tabs, or web traffic.</li>
+        <li><strong>Local Storage:</strong> High scores, game progress, sound settings, and your lifetime entitlement token are stored purely inside your local browser via <code>chrome.storage.local</code>.</li>
+        <li><strong>Payments:</strong> All transactions are securely handled by Cashfree. We do not store your card, bank, or UPI details on any server.</li>
+      </ul>
+    </div>
+
+    <!-- Refund & Cancellation -->
+    <div id="refund" class="policy-section">
+      <h2>Cancellation & Refund Policy</h2>
+      <p>We want you to be 100% happy with Secret Arcade:</p>
+      <ul>
+        <li><strong>Refund Window:</strong> Because Secret Arcade is a digital software product, purchases are non-transferable. However, if you experience technical issues that prevent you from using the extension and our support cannot resolve it within 7 days, we will issue a full 100% refund.</li>
+        <li><strong>Requesting a Refund:</strong> Email us with your Cashfree Order ID or Payment ID and purchase email. Refunds are processed back to your original payment method via Cashfree within 5–7 business days.</li>
+      </ul>
+    </div>
+
+    <!-- Shipping & Delivery Policy -->
+    <div id="shipping" class="policy-section">
+      <h2>Shipping & Delivery Policy</h2>
+      <p><strong>Digital Goods Delivery:</strong></p>
+      <ul>
+        <li>Secret Arcade is an electronic software product (Chrome Extension).</li>
+        <li><strong>No physical shipping:</strong> No physical goods are shipped.</li>
+        <li><strong>Delivery Time:</strong> Instant. As soon as checkout is completed on Cashfree, your Order / Payment ID is generated and you can immediately unlock the games inside the extension popup.</li>
+      </ul>
+    </div>
+
+  </section>
+
+  <!-- Cashfree Mandatory Footer Links -->
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-col">
+        <h4>SECRET ARCADE</h4>
+        <p style="font-size: 12px; line-height: 1.6;">A modern retro arcade micro-break extension for Google Chrome. Handcrafted for productivity and quick fun.</p>
+      </div>
+      <div class="footer-col">
+        <h4>LEGAL & POLICIES</h4>
+        <ul>
+          <li><a href="javascript:showPolicy('terms')">Terms & Conditions</a></li>
+          <li><a href="javascript:showPolicy('privacy')">Privacy Policy</a></li>
+          <li><a href="javascript:showPolicy('refund')">Refund & Cancellation</a></li>
+          <li><a href="javascript:showPolicy('shipping')">Shipping & Delivery</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>SUPPORT</h4>
+        <ul>
+          <li><a href="javascript:showPolicy('contact')">Contact Us</a></li>
+          <li><a href="https://payments.cashfree.com/forms/secret-arcade" target="_blank">Cashfree Checkout</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>© 2026 Secret Arcade. All rights reserved. Secured by Cashfree.</p>
+    </div>
+  </footer>
+
+  <script>
+    function showPolicy(id) {
+      document.querySelectorAll('.policy-section').forEach(el => el.classList.remove('active'));
+      const target = document.getElementById(id);
+      if (target) {
+        target.classList.add('active');
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  </script>
+</body>
+</html>
