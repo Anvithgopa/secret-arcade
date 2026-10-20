@@ -1,5 +1,7 @@
 # 🚀 Chrome Web Store Publishing Guide for Secret Arcade
 
+> 🟢 **Live Store URL:** [https://chromewebstore.google.com/detail/secret-arcade/jckaolgojndbcidcomlbjhdmbgmaimep?authuser=0&hl=en](https://chromewebstore.google.com/detail/secret-arcade/jckaolgojndbcidcomlbjhdmbgmaimep?authuser=0&hl=en)
+
 This guide contains everything you need to publish **Secret Arcade** to the Google Chrome Web Store.
 
 ---

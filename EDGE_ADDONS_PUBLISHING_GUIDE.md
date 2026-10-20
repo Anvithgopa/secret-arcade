@@ -1,5 +1,7 @@
 # 🌐 Microsoft Edge Add-ons Publishing Guide for Secret Arcade
 
+> 🟢 **Live Store URL:** [https://microsoftedge.microsoft.com/addons/detail/secret-arcade/aonmpeobhmmlibdiodoechgkocnpncfo](https://microsoftedge.microsoft.com/addons/detail/secret-arcade/aonmpeobhmmlibdiodoechgkocnpncfo)
+
 This guide walks you through submitting **Secret Arcade** to the **Microsoft Edge Add-ons** store.
 
 ---

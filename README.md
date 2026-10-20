@@ -5,7 +5,10 @@
 ![Secret Arcade Banner](store-assets/cashfree-thumbnail.png)
 
 ### *"Your tiny escape."*
-**A compact, retro-inspired multi-game arcade hidden directly inside Google Chrome for quick 5–20 minute breaks.**
+**A compact, retro-inspired multi-game arcade hidden directly inside Google Chrome & Microsoft Edge for quick 5–20 minute breaks.**
+
+[![Chrome Web Store](https://img.shields.io/badge/Chrome_Web_Store-Add_to_Chrome-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/secret-arcade/jckaolgojndbcidcomlbjhdmbgmaimep?authuser=0&hl=en)
+[![Microsoft Edge Add-ons](https://img.shields.io/badge/Microsoft_Edge-Get_Extension-0078D7?style=for-the-badge&logo=microsoftedge&logoColor=white)](https://microsoftedge.microsoft.com/addons/detail/secret-arcade/aonmpeobhmmlibdiodoechgkocnpncfo)
 
 [![Manifest V3](https://img.shields.io/badge/Manifest-V3-success?style=for-the-badge&logo=googlechrome&logoColor=white)](https://developer.chrome.com/docs/extensions/mv3/intro/)
 [![React 18](https://img.shields.io/badge/React-18.3-61dafb?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
@@ -14,9 +17,20 @@
 [![TailwindCSS](https://img.shields.io/badge/Tailwind-CSS-38bdf8?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![License: Proprietary](https://img.shields.io/badge/License-Proprietary-red?style=for-the-badge)](LICENSE.md)
 
-[Website Demo](website/index.html) • [Privacy Policy](PRIVACY_POLICY.md) • [Terms of Service](TERMS_OF_SERVICE.md) • [Chrome Store Guide](CHROME_STORE_PUBLISHING_GUIDE.md)
+[Chrome Web Store](https://chromewebstore.google.com/detail/secret-arcade/jckaolgojndbcidcomlbjhdmbgmaimep?authuser=0&hl=en) • [Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/secret-arcade/aonmpeobhmmlibdiodoechgkocnpncfo) • [Website Demo](website/index.html) • [Privacy Policy](PRIVACY_POLICY.md) • [Terms of Service](TERMS_OF_SERVICE.md)
 
 </div>
+
+---
+
+## 🚀 Live Store Releases
+
+Secret Arcade is published and live on both major Chromium web stores:
+
+| Browser Store | Status | Direct Store Listing |
+| :--- | :---: | :--- |
+| **Google Chrome Web Store** | 🟢 **Live** | [👉 **Install for Google Chrome**](https://chromewebstore.google.com/detail/secret-arcade/jckaolgojndbcidcomlbjhdmbgmaimep?authuser=0&hl=en) |
+| **Microsoft Edge Add-ons** | 🟢 **Live** | [👉 **Get for Microsoft Edge**](https://microsoftedge.microsoft.com/addons/detail/secret-arcade/aonmpeobhmmlibdiodoechgkocnpncfo) |
 
 ---
 
